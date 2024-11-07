@@ -13,6 +13,16 @@ import bcrypt from "bcrypt";
 
 const firestore = getFirestore(app);
 
+// Definisikan tipe atau interface untuk pengguna
+interface User {
+  id: string;
+  email: string;
+  fullname?: string;
+  phone?: string;
+  password: string; // Pastikan password disertakan dalam tipe
+  role?: string;
+}
+
 export async function retrieveData(collectionName: string) {
   const snapshot = await getDocs(collection(firestore, collectionName));
   const data = snapshot.docs.map((doc) => ({
@@ -23,9 +33,8 @@ export async function retrieveData(collectionName: string) {
 }
 
 export async function retrieveDataById(collectionName: string, id: string) {
-  const snpashot = await getDoc(doc(firestore, collectionName, id));
-  const data = snpashot.data();
-  return data;
+  const snapshot = await getDoc(doc(firestore, collectionName, id));
+  return snapshot.data();
 }
 
 export async function signUp(
@@ -52,18 +61,35 @@ export async function signUp(
   if (data.length > 0) {
     callback(false);
   } else {
-    if (!userData.role) {
-      userData.role = "member";
-    }
+    try {
+      if (!userData.role) {
+        userData.role = "member";
+      }
 
-    userData.password = await bcrypt.hash(userData.password, 10);
-    await addDoc(collection(firestore, "users"), userData)
-      .then(() => {
-        callback(true);
-      })
-      .catch((error) => {
-        callback(false);
-        console.log(error);
-      });
+      // Hash password sebelum menyimpan
+      userData.password = await bcrypt.hash(userData.password, 10);
+      await addDoc(collection(firestore, "users"), userData);
+      callback(true);
+    } catch (error) {
+      callback(false);
+      console.error(error);
+    }
+  }
+}
+
+export async function signIn(email: string): Promise<User | null> {
+  const q = query(collection(firestore, "users"), where("email", "==", email));
+
+  const snapshot = await getDocs(q);
+  const data = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as User[]; // Tetapkan tipe sebagai User[]
+
+  if (data.length > 0 && data[0].password) {
+    // Memastikan password ada
+    return data[0];
+  } else {
+    return null;
   }
 }

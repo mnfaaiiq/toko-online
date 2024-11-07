@@ -1,5 +1,4 @@
 import React, { FormEvent, useState } from "react";
-import styles from "./Register.module.scss";
 import Link from "next/link";
 import { useRouter } from "next/router";
 

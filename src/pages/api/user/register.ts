@@ -1,12 +1,19 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { signUp } from "@/lib/firebase/service";
 
+/**
+ * Handler for user registration API.
+ *
+ * @param req - HTTP request object, must contain a JSON body with user data.
+ * @param res - HTTP response object, used to send the response.
+ * @returns Promise<void> - A Promise that resolves when the response is sent.
+ */
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse
-) {
+  res: NextApiResponse<{ status: boolean; statusCode: number; message: string }>
+): Promise<void> {
   if (req.method === "POST") {
-    await signUp(req.body, (status) => {
+    await signUp(req.body, (status: boolean) => {
       if (status) {
         res
           .status(200)

@@ -2,6 +2,8 @@ import React, { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Input from "@/components/ui/input";
+import authServices from "@/services/auth";
+import AuthLayout from "../../layouts/AuthLayout";
 
 const RegisterView = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,13 +21,7 @@ const RegisterView = () => {
       password: form.password.value,
     };
 
-    const result = await fetch("/api/user/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const result = await authServices.registerAccount(data);
 
     if (result.status === 200) {
       setIsLoading(false);
@@ -38,54 +34,48 @@ const RegisterView = () => {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-full">
-      <h1 className="text-3xl mb-3">Register</h1>
-      {error && <p className="text-red-500 mb-3">{error}</p>}
-      <div className="w-2/4 p-5 shadow mb-3">
-        <form onSubmit={handleSubmit}>
-          <Input
-            label="Fullname"
-            name="fullname"
-            placeholder="Eneter Your Fullname"
-            type="text"
-          />
+    <AuthLayout
+      linkText="Already Have an account? Sign in "
+      title="Register"
+      link="/auth/login"
+    >
+      <form onSubmit={handleSubmit}>
+        <Input
+          label="Fullname"
+          name="fullname"
+          placeholder="Eneter Your Fullname"
+          type="text"
+        />
 
-          <Input
-            label="Email"
-            name="email"
-            placeholder="Enter Your Email"
-            type="email"
-          />
+        <Input
+          label="Email"
+          name="email"
+          placeholder="Enter Your Email"
+          type="email"
+        />
 
-          <Input
-            label="Phone"
-            name="phone"
-            placeholder="Enter Your Phone"
-            type="number"
-          />
+        <Input
+          label="Phone"
+          name="phone"
+          placeholder="Enter Your Phone"
+          type="number"
+        />
 
-          <Input
-            label="password"
-            name="password"
-            placeholder="Enter Your Password"
-            type="password"
-          />
+        <Input
+          label="password"
+          name="password"
+          placeholder="Enter Your Password"
+          type="password"
+        />
 
-          <button
-            type="submit"
-            className="bg-black p-2 rounded-md text-white w-full"
-          >
-            {isLoading ? "Loading..." : "Register"}
-          </button>
-        </form>
-      </div>
-      <p>
-        Have an account? Sign in{" "}
-        <Link href={"/auth/login"} className="text-blue-400">
-          here
-        </Link>
-      </p>
-    </div>
+        <button
+          type="submit"
+          className="bg-black p-2 rounded-md text-white w-full"
+        >
+          {isLoading ? "Loading..." : "Register"}
+        </button>
+      </form>
+    </AuthLayout>
   );
 };
 

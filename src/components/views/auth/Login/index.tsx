@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { FaGoogle } from "react-icons/fa";
 import Input from "@/components/ui/input";
+import AuthLayout from "../../layouts/AuthLayout";
 
 const LoginView = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,51 +38,45 @@ const LoginView = () => {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center h-screen w-full">
-      <h1 className="text-3xl mb-3">login</h1>
-      {error && <p className="text-red-500 mb-3">{error}</p>}
-      <div className="w-2/4 p-5 shadow mb-3">
-        <form onSubmit={handleSubmit}>
-          <Input
-            name="email"
-            label="Email"
-            placeholder="Enter Email"
-            type="email"
-          />
+    <AuthLayout
+      title="Login"
+      link="/auth/register"
+      linkText="Don't have an account? Sign up "
+    >
+      <form onSubmit={handleSubmit}>
+        <Input
+          name="email"
+          label="Email"
+          placeholder="Enter Email"
+          type="email"
+        />
 
-          <Input
-            label="Password"
-            name="password"
-            placeholder="Enter Password"
-            type="password"
-          />
+        <Input
+          label="Password"
+          name="password"
+          placeholder="Enter Password"
+          type="password"
+        />
 
-          <button
-            type="submit"
-            className="bg-slate-900 hover:bg-slate-700 p-2 rounded-md text-white w-full"
-          >
-            {isLoading ? "Loading..." : "Login"}
-          </button>
-        </form>
-        <hr className="mt-5 mb-5" />
-        <div className="w-full">
-          <button
-            type="button"
-            onClick={() => signIn("google", { callbackUrl, redirect: false })}
-            className="bg-green-600 p-2 rounded-md text-white w-full flex justify-center items-center gap-2 hover:bg-green-500 transition-all"
-          >
-            <FaGoogle />
-            Login with Google
-          </button>
-        </div>
+        <button
+          type="submit"
+          className="bg-slate-900 hover:bg-slate-700 p-2 rounded-md text-white w-full"
+        >
+          {isLoading ? "Loading..." : "Login"}
+        </button>
+      </form>
+      <hr className="mt-5 mb-5" />
+      <div className="w-full">
+        <button
+          type="button"
+          onClick={() => signIn("google", { callbackUrl, redirect: false })}
+          className="bg-green-600 p-2 rounded-md text-white w-full flex justify-center items-center gap-2 hover:bg-green-500 transition-all"
+        >
+          <FaGoogle />
+          Login with Google
+        </button>
       </div>
-      <p>
-        Don{"'"}t have an account? Sign{" "}
-        <Link href={"/auth/register"} className="text-blue-400">
-          here
-        </Link>
-      </p>
-    </div>
+    </AuthLayout>
   );
 };
 

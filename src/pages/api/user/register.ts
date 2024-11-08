@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { signUp } from "@/lib/firebase/service";
+import { signUp } from "@/services/auth/services";
 
 /**
  * Handler for user registration API.

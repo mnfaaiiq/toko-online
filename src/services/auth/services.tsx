@@ -35,7 +35,7 @@ export async function signUp(
     userData.password = await bcrypt.hash(userData.password, 10);
     userData.created_at = new Date();
     userData.updated_at = new Date();
-    await addData("user", userData, (result: boolean) => callback(result));
+    await addData("users", userData, (result: boolean) => callback(result));
   }
 }
 

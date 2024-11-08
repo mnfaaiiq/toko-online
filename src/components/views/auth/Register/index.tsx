@@ -1,6 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Input from "@/components/ui/input";
 
 const RegisterView = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -42,42 +43,34 @@ const RegisterView = () => {
       {error && <p className="text-red-500 mb-3">{error}</p>}
       <div className="w-2/4 p-5 shadow mb-3">
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col my-5">
-            <label htmlFor="fullname">Fullname</label>
-            <input
-              name="fullname"
-              id="fullname"
-              type="text"
-              className="p-3 bg-slate-100 mt-1 rounded-md"
-            />
-          </div>
-          <div className="flex flex-col my-5">
-            <label htmlFor="email">Email</label>
-            <input
-              name="email"
-              id="email"
-              type="text"
-              className="p-3 bg-slate-100 mt-1 rounded-md"
-            />
-          </div>
-          <div className="flex flex-col my-5">
-            <label htmlFor="phone">Phone</label>
-            <input
-              name="phone"
-              id="phone"
-              type="text"
-              className="p-3 bg-slate-100 mt-1 rounded-md"
-            />
-          </div>
-          <div className="flex flex-col my-5">
-            <label htmlFor="password">Password</label>
-            <input
-              name="password"
-              id="password"
-              type="password"
-              className="p-3 bg-slate-100 mt-1 rounded-md"
-            />
-          </div>
+          <Input
+            label="Fullname"
+            name="fullname"
+            placeholder="Eneter Your Fullname"
+            type="text"
+          />
+
+          <Input
+            label="Email"
+            name="email"
+            placeholder="Enter Your Email"
+            type="email"
+          />
+
+          <Input
+            label="Phone"
+            name="phone"
+            placeholder="Enter Your Phone"
+            type="number"
+          />
+
+          <Input
+            label="password"
+            name="password"
+            placeholder="Enter Your Password"
+            type="password"
+          />
+
           <button
             type="submit"
             className="bg-black p-2 rounded-md text-white w-full"

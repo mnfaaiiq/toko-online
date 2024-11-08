@@ -44,6 +44,8 @@ export async function signUp(
     phone: string;
     password: string;
     role?: string;
+    created_at?: Date;
+    updated_at?: Date;
   },
   callback: Function
 ) {
@@ -68,6 +70,8 @@ export async function signUp(
 
       // Hash password sebelum menyimpan
       userData.password = await bcrypt.hash(userData.password, 10);
+      userData.created_at = new Date();
+      userData.updated_at = new Date();
       await addDoc(collection(firestore, "users"), userData);
       callback(true);
     } catch (error) {

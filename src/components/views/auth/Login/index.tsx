@@ -3,6 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import { FaGoogle } from "react-icons/fa";
+import Input from "@/components/ui/input";
 
 const LoginView = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,25 +42,20 @@ const LoginView = () => {
       {error && <p className="text-red-500 mb-3">{error}</p>}
       <div className="w-2/4 p-5 shadow mb-3">
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col my-5">
-            <label htmlFor="email">Email</label>
-            <input
-              name="email"
-              id="email"
-              type="text"
-              className="p-3 bg-slate-100 mt-1 rounded-md"
-            />
-          </div>
+          <Input
+            name="email"
+            label="Email"
+            placeholder="Enter Email"
+            type="email"
+          />
 
-          <div className="flex flex-col my-5">
-            <label htmlFor="password">Password</label>
-            <input
-              name="password"
-              id="password"
-              type="password"
-              className="p-3 bg-slate-100 mt-1 rounded-md"
-            />
-          </div>
+          <Input
+            label="Password"
+            name="password"
+            placeholder="Enter Password"
+            type="password"
+          />
+
           <button
             type="submit"
             className="bg-slate-900 hover:bg-slate-700 p-2 rounded-md text-white w-full"

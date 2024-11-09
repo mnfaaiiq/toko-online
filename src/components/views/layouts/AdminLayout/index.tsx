@@ -1,5 +1,6 @@
 import Sidebar from "@/components/fragments/Sidebar";
 import React from "react";
+import { FaUsers } from "react-icons/fa";
 import { MdOutlineDashboard, MdProductionQuantityLimits } from "react-icons/md";
 
 type PropTypes = {
@@ -17,14 +18,19 @@ const listSidebarItem = [
     url: "/admin/products",
     icon: <MdProductionQuantityLimits size={32} />,
   },
+  {
+    title: "Users",
+    url: "/admin/users",
+    icon: <FaUsers size={32} />,
+  },
 ];
 
 const AdminLayout = (props: PropTypes) => {
   const { children } = props;
   return (
-    <div>
+    <div className="flex">
       <Sidebar lists={listSidebarItem} />
-      {children}
+      <div className="w-full p-10">{children}</div>
     </div>
   );
 };

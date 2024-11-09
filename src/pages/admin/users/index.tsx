@@ -1,7 +1,21 @@
-import React from "react";
+import UsersAdminView from "@/components/views/admin/Users";
+import userServices from "@/services/user";
+import React, { useEffect, useState } from "react";
 
 const AdminUsersPage = () => {
-  return <div>AdminUsersPage</div>;
+  const [users, setUsers] = useState([]);
+  useEffect(() => {
+    const getAllUsers = async () => {
+      const { data } = await userServices.getAllUsers();
+      setUsers(data.data);
+    };
+    getAllUsers();
+  }, []);
+  return (
+    <>
+      <UsersAdminView users={users} />
+    </>
+  );
 };
 
 export default AdminUsersPage;

@@ -35,6 +35,7 @@ const RegisterView = () => {
   };
   return (
     <AuthLayout
+      error={error}
       linkText="Already Have an account? Sign in "
       title="Register"
       link="/auth/login"
